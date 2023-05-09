@@ -1,6 +1,9 @@
 import sys
 import socket
 
+HOST = 'localhost' # maquina onde esta o servidor
+PORTA = 10001       # porta que o servidor esta escutando
+
 class Cliente:
     def __init__(self, host, porta):
         self.host = host
@@ -72,9 +75,6 @@ class Cliente:
 
 
 if __name__ == '__main__':
-    HOST = 'localhost' # maquina onde esta o servidor
-    PORTA = 10001       # porta que o servidor esta escutando
-
     cliente = Cliente(HOST, PORTA)
     cliente.executa()
  
