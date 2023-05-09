@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-import threading
 
 class Dicionario:
     
@@ -14,32 +13,28 @@ class Dicionario:
             self.dicionario = {}
 
     def fechar(self):
-        '''Salva o dicionário em um arquivo'''
         with open(self.nomeArq, 'w') as f:
             json.dump(self.dicionario, f)
 
     def add(self, chave, valor):
-        '''Adiciona um valor a uma chave do dicionário'''
         if chave in self.dicionario:
             self.dicionario[chave].append(valor)
+            print(f"Valor [{valor}] adicionado ao dicionario!")
         else:
-          self.dicionario[chave] = [valor]
+            self.dicionario[chave] = [valor]
+            print(f"Chave adicionada ao dicionario!")
         self.fechar()
-        print(f"Valor '{valor}' adicionado à chave '{chave}' com sucesso.")
         return self.dicionario[chave]
 
     def rem(self, chave):
-        '''Remove uma chave do dicionário'''
         if chave in self.dicionario:
             del self.dicionario[chave]
             self.fechar()
             print("Chave removida com sucesso.")
         else:
-            print("ERRO: Chave não encontrada.")
+            print("Error: Chave não encontrada.")
 
     def con(self, chave):
-        '''Busca uma chave no dicionário'''
-        print(f"Buscando chave '{chave}'...")
         if chave in self.dicionario:
             return self.dicionario[chave]
         else:

@@ -72,12 +72,12 @@ class Servidor:
                 chave, valor = msg.split(':')
                 with self.lock:
                     valores_salvos = self.dicionario.add(chave, valor)
-                response = bytes(f"Adicionado com sucesso. A chave '{chave}' possui os valores: {valores_salvos}.",encoding="utf-8",)
+                response = bytes(f"Adicionado com sucesso!",encoding="utf-8",)
             elif msg.startswith('CON'):
                 chave = re.search(r"\[(.*?)\]", msg).group(1)
                 with self.lock:
                     valores = self.dicionario.con(chave)
-                response = bytes(f"Os valores associados a chave '{chave}' são: {valores}",encoding="utf-8",)
+                response = bytes(f"{chave}:\n\t{valores}",encoding="utf-8",)
 
             clisock.sendall(response)  # envia a resposta para o cliente
 
