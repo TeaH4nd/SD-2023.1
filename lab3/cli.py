@@ -4,7 +4,7 @@ HOST = 'localhost'  # maquina onde esta o servidor
 PORTA = 10001       # porta que o servidor esta escutando
 
 # Classe cliente para interagir com o dicionário remoto
-class DictionaryClient:
+class Cliente:
     def __init__(self):
         self.conn = rpyc.connect(HOST, PORTA)  # Conectar ao servidor na porta 5000
 
@@ -32,7 +32,7 @@ def show_menu():
 
 # Função principal do cliente
 def run_client():
-    client = DictionaryClient()
+    client = Cliente()
     while True:
         choice = show_menu()
         if choice == "1":
