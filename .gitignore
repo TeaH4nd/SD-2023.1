@@ -2,3 +2,5 @@
 *.zip
 *.pdf
 lab2/*.json
+
+.SD
