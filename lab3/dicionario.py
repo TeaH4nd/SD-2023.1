@@ -1,41 +1,39 @@
+import os
 import json
-from pathlib import Path
 
+# Caminho para o arquivo de armazenamento em disco
+STORAGE_FILE = "srvData.json"
+
+# Classe do dicionário remoto
 class Dicionario:
-    
-    def __init__(self, nomeArq):
-        self.nomeArq = nomeArq
-        Path(self.nomeArq).touch(exist_ok=True)
-        try:
-            with open(self.nomeArq, 'r') as f:
-                self.dicionario = json.load(f)
-        except:
-            self.dicionario = {}
+    def __init__(self):
+        self.dictionary = {}
+        self.load_dictionary()
 
-    def fechar(self):
-        with open(self.nomeArq, 'w') as f:
-            json.dump(self.dicionario, f)
+    def load_dictionary(self):
+        if os.path.exists(STORAGE_FILE):
+            with open(STORAGE_FILE, "r") as file:
+                self.dictionary = json.load(file)
 
-    def add(self, chave, valor):
-        if chave in self.dicionario:
-            self.dicionario[chave].append(valor)
-            print(f"Valor [{valor}] adicionado ao dicionario!")
+    def save_dictionary(self):
+        with open(STORAGE_FILE, "w") as file:
+            json.dump(self.dictionary, file)
+
+    def query(self, key):
+        values = self.dictionary.get(key, [])
+        return sorted(values)
+
+    def write(self, key, value):
+        if key not in self.dictionary:
+            self.dictionary[key] = []
+        self.dictionary[key].append(value)
+        self.save_dictionary()
+        return "Entrada inserida com sucesso."
+
+    def remove(self, key):
+        if key in self.dictionary:
+            del self.dictionary[key]
+            self.save_dictionary()
+            return "Entrada removida com sucesso."
         else:
-            self.dicionario[chave] = [valor]
-            print(f"Chave adicionada ao dicionario!")
-        self.fechar()
-        return self.dicionario[chave]
-
-    def rem(self, chave):
-        if chave in self.dicionario:
-            del self.dicionario[chave]
-            self.fechar()
-            print("Chave removida com sucesso.")
-        else:
-            print("Error: Chave não encontrada.")
-
-    def con(self, chave):
-        if chave in self.dicionario:
-            return self.dicionario[chave]
-        else:
-            return ['Chave não encontrada no dicionario!']
+            return "A entrada não existe."
