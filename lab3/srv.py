@@ -18,6 +18,8 @@ class Servidor(rpyc.Service):
         print("Conectado com:", cliente_endr)
 
     def on_disconnect(self, conn):
+        cliente_endr = conn._channel.stream.sock.getpeername()
+        print(f'Cliente ({cliente_endr}) desconectou :(')
         self.dictionary.save_dictionary()
 
     def exposed_query(self, key):
@@ -32,4 +34,5 @@ class Servidor(rpyc.Service):
 # Iniciar o servidor
 if __name__ == "__main__":
     server = ThreadedServer(Servidor, port=PORT)
+    print('Pronto para receber conexões!')
     server.start()

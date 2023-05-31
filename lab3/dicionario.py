@@ -8,7 +8,6 @@ STORAGE_FILE = "srvData.json"
 class Dicionario:
     def __init__(self):
         self.dictionary = {}
-        self.load_dictionary()
 
     def load_dictionary(self):
         if os.path.exists(STORAGE_FILE):
@@ -20,6 +19,7 @@ class Dicionario:
             json.dump(self.dictionary, file)
 
     def query(self, key):
+        self.load_dictionary()
         values = self.dictionary.get(key, [])
         return sorted(values)
 
